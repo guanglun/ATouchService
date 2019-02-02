@@ -33,6 +33,7 @@ clean:
 	rm $(OBJDIR)/*
 
 run:
+
 	adb push $(TARGET) /data/local/tmp/
 	adb shell chmod 777 /data/local/tmp/$(BINAME)
 	adb shell /data/local/tmp/$(BINAME)

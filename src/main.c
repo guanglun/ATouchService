@@ -1,24 +1,36 @@
 #include <stdio.h>
 
-#include "touch_get_event_num.h"
+
+#include "touch.h"
+#include "log.h"
 
 int main()
 {
-    printf("\r\n==============start=============\r\n");
+
+    LOG("\r\n==============start=============\r\n");
     printf("ATouchService is runing\r\n");
 
-    int touch_num = get_touchscreen_event_num();
-    if (touch_num != -1)
+    if(touch_init() == -1)
     {
-        printf("get touch success: event%d\r\n", touch_num);
-    }
-    else
-    {
-        printf("get touch fail,exit\r\n");
         goto exit;
     }
 
+    s_touch touch;
+    touch.start_x = 100;
+    touch.start_y = 100;
+    touch.end_x = 500;
+    touch.end_y = 100;
+    touch.step = 10;
+    touch.type = TOUCH_MOVE_UP;
+
+    int touch1 = touch_down(&touch);
+
+    while(1)
+    {
+        sleep(1);
+    }
+
 exit:
-    printf("==============exit=============\r\n");
+    LOG("==============exit=============\r\n");
     return 0;
 }

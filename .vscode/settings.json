@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "touch.h": "c",
+        "touch_send_event.h": "c"
+    }
+}

@@ -8,26 +8,25 @@
 #include <time.h>
 #include <linux/input.h>
 
-int fd_event = 0;
+#include "touch_send_event.h"
+#include "log.h"
 
-void open_event(int event_num)
+int send_event(int fd,__u16 type, __u16 code, __s32 value)
 {
-    
-    char name[64]; 
+    struct input_event event;
+    int ret = 0;
 
-    sprintf(name, "/dev/input/event%d", event_num);
-    fd_event = open(name, O_RDWR);
+    event.type = type;
+    event.code = code;
+    event.value = value;
 
-    if(fd_event < 0) {
-        printf( "open fail%s\n",name);
-        return fd_event;
-    }else{
-        printf( "open success%s\n",name);
-        return fd_event;
+    ret = write(fd, &event, sizeof(event));
+    if (ret < (ssize_t)sizeof(event))
+    {
+        LOG("write event failed, %s\n", strerror(errno));
+        return -1;
     }
+
+    return 0;
 }
 
-void close_event()
-{
-    close(fd_event);
-}
