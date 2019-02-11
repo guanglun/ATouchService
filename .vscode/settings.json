@@ -2,6 +2,7 @@
     "files.associations": {
         "touch.h": "c",
         "touch_send_event.h": "c",
-        "touch_get_event_num.h": "c"
+        "touch_get_event_num.h": "c",
+        "server.h": "c"
     }
 }

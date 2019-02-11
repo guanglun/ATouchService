@@ -2,7 +2,8 @@ NDK_PATH=/home/share/Android
 
 SRCDIR = 				\
 		src				\
-		src/touch	
+		src/touch		\
+		src/socket
 
 OBJDIR = output/build
 BINDIR = output/bin

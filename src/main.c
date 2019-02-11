@@ -3,6 +3,7 @@
 
 #include "touch.h"
 #include "log.h"
+#include "server.h"
 
 int main()
 {
@@ -12,6 +13,11 @@ int main()
     printf("ATouchService is runing\r\n");
 
     if(touch_init() == -1)
+    {
+        goto exit;
+    }
+
+    if(server_init() == -1)
     {
         goto exit;
     }
