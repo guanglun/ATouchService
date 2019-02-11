@@ -3,6 +3,8 @@
         "touch.h": "c",
         "touch_send_event.h": "c",
         "touch_get_event_num.h": "c",
-        "server.h": "c"
+        "server.h": "c",
+        "protocol_atouch.h": "c",
+        "protocol_adb.h": "c"
     }
 }

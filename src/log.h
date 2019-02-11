@@ -13,4 +13,7 @@
 /LOG
 #endif
 
+void log_byte(char *buf,int len);
+unsigned short char2short(char c1,char c2);
+
 #endif

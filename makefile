@@ -3,7 +3,8 @@ NDK_PATH=/home/share/Android
 SRCDIR = 				\
 		src				\
 		src/touch		\
-		src/socket
+		src/socket		\
+		src/game
 
 OBJDIR = output/build
 BINDIR = output/bin
@@ -28,7 +29,7 @@ $(OBJS):$(SRCS)
 	@echo LIBFILE: $(LIBFILE)
 	@echo SRCS: $(SRCS)
 	@echo OBJS: $(OBJS)
-	$(CC) $(CCFLAGS) -o $@ -c $(filter %$(notdir $(@:.o=.c)),$(SRCS)) $(INCLUDES)
+	$(CC) $(CCFLAGS) -o $@ -c $(filter %/$(notdir $(@:.o=.c)),$(SRCS)) $(INCLUDES)
 
 clean:
 	rm $(OBJDIR)/*

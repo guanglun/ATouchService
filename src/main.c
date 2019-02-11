@@ -22,29 +22,29 @@ int main()
         goto exit;
     }
 
-    s_touch touch;
-    touch.start_x = 100;
-    touch.start_y = 100;
-    touch.end_x = 500;
-    touch.end_y = 100;
-    touch.step = 10;
-    touch.type = TOUCH_MOVE_UP;
+    // s_touch touch;
+    // touch.start_x = 100;
+    // touch.start_y = 100;
+    // touch.end_x = 500;
+    // touch.end_y = 100;
+    // touch.step = 10;
+    // touch.type = TOUCH_MOVE_UP;
 
-    int touch1 = touch_down(&touch);
+    // int touch1 = touch_down(&touch);
 
-    touch.start_x = 100;
-    touch.start_y = 150;
-    touch.end_x = 500;
-    touch.end_y = 150;
-    touch.step = 50;
-    int touch2 = touch_down(&touch);
+    // touch.start_x = 100;
+    // touch.start_y = 150;
+    // touch.end_x = 500;
+    // touch.end_y = 150;
+    // touch.step = 50;
+    // int touch2 = touch_down(&touch);
 
-    touch.start_x = 100;
-    touch.start_y = 200;
-    touch.end_x = 500;
-    touch.end_y = 200;
-    touch.step = 100;
-    int touch3 = touch_down(&touch);
+    // touch.start_x = 100;
+    // touch.start_y = 200;
+    // touch.end_x = 500;
+    // touch.end_y = 200;
+    // touch.step = 100;
+    // int touch3 = touch_down(&touch);
 
     //touch_up(touch1);
 
