@@ -164,6 +164,7 @@ int get_touchscreen_event_num(char *touch_type)
                 send_event(fd, EV_ABS, ABS_MT_TRACKING_ID, -1);
                 send_event(fd, EV_SYN, SYN_REPORT, 0);
 
+
 #ifdef PRINTF_LOG
                 printf("Write SLOT END\r\n");
 #endif
