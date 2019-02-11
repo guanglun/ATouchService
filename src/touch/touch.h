@@ -13,6 +13,8 @@ typedef struct struct_touch
     __s32 start_y;   
     __s32 end_x;
     __s32 end_y;
+    __s32 now_x;
+    __s32 now_y;
     int step;
     int step_count;
 } s_touch;
