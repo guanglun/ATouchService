@@ -9,6 +9,7 @@
 
 #include "log.h"
 #include "pubg.h"
+#include "proc_keyboard.h"
 
 S_PUBG s_pubg;
 
@@ -72,4 +73,6 @@ void get_pubg_buffer(char *buf)
     SetPick1(char2short(buf[i++],buf[i++]),char2short(buf[i++],buf[i++]));
     SetPick2(char2short(buf[i++],buf[i++]),char2short(buf[i++],buf[i++]));
     SetPick3(char2short(buf[i++],buf[i++]),char2short(buf[i++],buf[i++]));
+
+    set_move_xy(s_pubg.N5_MoveX,s_pubg.N6_MoveY);
 }

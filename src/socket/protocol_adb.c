@@ -81,8 +81,9 @@ int adb_receive(char *buf, int len)
         else if ((receive_adb_flag == (data_adb_len + 3)) && (check_adb == buf[i]))
         {
             isSuccess = 1;
-            log_byte(data_adb_buffer, data_adb_len);
+            //log_byte(data_adb_buffer, data_adb_len);
             adb_receive_protocol(data_adb_buffer, data_adb_len);
+            //LOG("adb_receive_protocol exit\r\n");
             receive_adb_flag = 0;
         }
         else if (buf[i] == 0xAA)

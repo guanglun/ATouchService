@@ -4,18 +4,20 @@
 
 #include "list_keyboard_event.h"
 
-int kb_list_init(KBEventNode *headNode)
+int kb_list_init(KBEventNode **headNode)
 {
 
-	headNode = (KBEventNode *)malloc(sizeof(KBEventNode));
-	if (headNode == NULL)
+	*headNode = (KBEventNode *)malloc(sizeof(KBEventNode));
+	if (*headNode == NULL)
 	{
+		(*headNode)->next = NULL;
+		
 		return -1;
 	}
 	else
 	{
 
-		headNode->next = NULL;
+		(*headNode)->next = NULL;
 		return 0;
 	}
 }
@@ -24,6 +26,7 @@ void kb_list_printf(KBEventNode *headNode)
 {
 	int i = 0;
 	KBEventNode *pMove = headNode->next;
+	printf("kb_list_printf:\r\n");
 	while (pMove != NULL)
 	{
 		i++;
@@ -34,16 +37,15 @@ void kb_list_printf(KBEventNode *headNode)
 
 int kb_list_clear(KBEventNode *headNode)
 {
-
 	KBEventNode *pMove = headNode->next;
 	KBEventNode *pNode;
 	while (pMove != NULL)
 	{
-
 		pNode = pMove->next;
 		free(pMove);
 		pMove = pNode;
 	}
+	headNode->next = NULL;
 	return 0;
 }
 

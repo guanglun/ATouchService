@@ -150,5 +150,6 @@
 
 
 void proc_keyboard(char *buf, int len);
+void set_move_xy(int x,int y);
 
 #endif

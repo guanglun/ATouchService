@@ -6,6 +6,8 @@
 #include "server.h"
 #include "list_keyboard_event.h"
 
+KBEventNode *headNode;
+
 int main()
 {
     
@@ -51,6 +53,22 @@ int main()
     // int touch3 = touch_down(&touch);
 
     //touch_up(touch1);
+
+    
+    if(kb_list_init(&headNode) == -1)
+    {
+        LOG("kb_list_init Fail\r\n");
+    }else{
+        LOG("kb_list_init Success\r\n");
+    }
+    printf("ADDR:%08X\r\n",headNode);
+    kb_list_insert(headNode,1,1);
+    kb_list_insert(headNode,2,2);
+    printf("p1:\r\n");
+    kb_list_printf(headNode);
+    kb_list_clear(headNode);
+    printf("p2:\r\n");
+    kb_list_printf(headNode);
 
     while(1)
     {

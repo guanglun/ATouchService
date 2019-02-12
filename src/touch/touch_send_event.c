@@ -20,6 +20,8 @@ int send_event(int fd,__u16 type, __u16 code, __s32 value)
     event.code = code;
     event.value = value;
 
+    printf("%04x %04x %08x\r\n", event.type, event.code, event.value);
+    
     ret = write(fd, &event, sizeof(event));
     if (ret < (ssize_t)sizeof(event))
     {

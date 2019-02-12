@@ -14,6 +14,13 @@
 KBEventNode *headNode;
 KBEventNode *headNodeFlag;
 
+int move_x, move_y;
+void set_move_xy(int x,int y)
+{
+    move_x = x;
+    move_y = y;
+}
+
 void kb_get_event(char *buf, int len)
 {
     KBEventNode *event;
@@ -26,8 +33,8 @@ void kb_get_event(char *buf, int len)
     {
         is_first = 0;
 
-        kb_list_init(headNode);
-        kb_list_init(headNodeFlag);
+        kb_list_init(&headNode);
+        kb_list_init(&headNodeFlag);
     }
 
     if ((buf[0] & 0x01) == 0x01)
@@ -221,7 +228,6 @@ void kb_get_event(char *buf, int len)
             kb_list_insert(headNodeFlag, buf[i], EVENT_K_DOWN);
         }
     }
-
     pNode = headNode->next;
     while (pNode != NULL)
     {
@@ -230,13 +236,14 @@ void kb_get_event(char *buf, int len)
         {
             pNode->event = EVENT_K_UP;
         }
+        pNode = pNode->next;
     }
     kb_list_clear(headNodeFlag);
 }
 
 void proc_keyboard(char *buf, int len)
 {
-    static int move_x, move_y;
+    
     static char is_left_shift_down = 0;
 
     static int te_move = -1,te_jump = -1,te_squat = -1,te_lie = -1,
@@ -250,6 +257,7 @@ void proc_keyboard(char *buf, int len)
     s_touch touch;
 
     kb_get_event(buf, len);
+    kb_list_printf(headNode);
 
     pNode = headNode->next;
     while (pNode != NULL)
@@ -633,10 +641,7 @@ void proc_keyboard(char *buf, int len)
                 set_watch_status(0);
             }
         }
-
-
-
-
+        
         pNode = pNode->next;
     }
 

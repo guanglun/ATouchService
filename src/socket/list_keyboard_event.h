@@ -8,7 +8,7 @@ typedef struct _KBEventNode_
 	struct _KBEventNode_ *next;
 } KBEventNode;
 
-int kb_list_init(KBEventNode *headNode);
+int kb_list_init(KBEventNode **headNode);
 void kb_list_printf(KBEventNode *headNode);
 int kb_list_clear(KBEventNode *headNode);
 int kb_list_get_size(KBEventNode *headNode);
