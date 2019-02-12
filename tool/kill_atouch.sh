@@ -1,0 +1,1 @@
+kill $(ps | grep ATouchService | grep -v grep | awk '{print $2}')

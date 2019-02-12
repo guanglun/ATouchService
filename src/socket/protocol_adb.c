@@ -11,6 +11,8 @@
 #include "protocol_adb.h"
 #include "protocol_atouch.h"
 #include "touch.h"
+#include "proc_mouse.h"
+#include "proc_keyboard.h"
 
 void adb_receive_protocol(char *buf, int len)
 {
@@ -20,21 +22,21 @@ void adb_receive_protocol(char *buf, int len)
     {
     case 0x00:
 
-        temp_len = cmd_atouch_creat(0x00, buf + 1, 3, len);
+        temp_len = cmd_atouch_creat(0x00, buf + 1, 3, temp);
         socket_atouch_send(temp,temp_len);
 
         break;
     case 0x02:
         if (len >= 4)
         {
-            //mProcMouse.MouseProc(buf, len);
+            proc_mouse(buf+1, len-1);
         }
         break;
 
     case 0x03:
         if (len == 9)
         {
-            //mProcKeyBoard.KeyBoardProc(buf, len);
+            proc_keyboard(buf+1, len-1);
         }
         break;
 
@@ -79,7 +81,7 @@ int adb_receive(char *buf, int len)
         else if ((receive_adb_flag == (data_adb_len + 3)) && (check_adb == buf[i]))
         {
             isSuccess = 1;
-            //log_byte(data_adb_buffer, data_adb_len);
+            log_byte(data_adb_buffer, data_adb_len);
             adb_receive_protocol(data_adb_buffer, data_adb_len);
             receive_adb_flag = 0;
         }

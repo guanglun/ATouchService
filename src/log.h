@@ -15,5 +15,6 @@
 
 void log_byte(char *buf,int len);
 unsigned short char2short(char c1,char c2);
+unsigned short limit(unsigned short  input, unsigned short  min, unsigned short  max);
 
 #endif

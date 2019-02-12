@@ -9,6 +9,8 @@ SRCDIR = 				\
 OBJDIR = output/build
 BINDIR = output/bin
 BINAME = ATouchService
+KILLSH_NAME = kill_atouch.sh
+KILLSH_PATH = tool
 
 INCLUDES = $(foreach n,$(SRCDIR),-I $(n))
 
@@ -35,7 +37,10 @@ clean:
 	rm $(OBJDIR)/*
 
 run:
-
+	adb push $(KILLSH_PATH)/$(KILLSH_NAME) /data/local/tmp/
+	adb shell chmod 777 /data/local/tmp/$(KILLSH_NAME)
+	adb shell /data/local/tmp/$(KILLSH_NAME)
+	
 	adb push $(TARGET) /data/local/tmp/
 	adb shell chmod 777 /data/local/tmp/$(BINAME)
 	adb shell /data/local/tmp/$(BINAME)

@@ -4,6 +4,7 @@
 #include "touch.h"
 #include "log.h"
 #include "server.h"
+#include "list_keyboard_event.h"
 
 int main()
 {
@@ -11,6 +12,8 @@ int main()
 
     LOG("\r\n==============start=============\r\n");
     printf("ATouchService is runing\r\n");
+
+    
 
     if(touch_init() == -1)
     {
@@ -21,6 +24,7 @@ int main()
     {
         goto exit;
     }
+
 
     // s_touch touch;
     // touch.start_x = 100;

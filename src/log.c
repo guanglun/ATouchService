@@ -19,3 +19,13 @@ unsigned short char2short(char c1,char c2)
     tmp |= (unsigned short)(c2);
     return tmp;
 }
+
+unsigned short limit(unsigned short  input, unsigned short  min, unsigned short  max)
+{
+    if (input > max)
+        return max;
+    else if (input < min)
+        return min;
+    else
+        return input;
+}
