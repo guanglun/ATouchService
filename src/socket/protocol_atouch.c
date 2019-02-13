@@ -10,6 +10,7 @@
 #include "log.h"
 #include "protocol_adb.h"
 #include "protocol_atouch.h"
+#include "touch_send_event.h"
 #include "touch.h"
 
 void get_soft_mouse_buffer(char *buf)
@@ -42,6 +43,22 @@ void get_soft_mouse_buffer(char *buf)
 
 }
 
+void get_rotation(char *buf)
+{
+    int width = (int)((buf[1]<<8)|buf[2]);
+    int heigh = (int)((buf[3]<<8)|buf[4]);
+    char i = buf[0];
+    
+    if(i == 0 || i == 2)
+    {
+        set_rotation(buf[0],width,heigh);
+    }else if(i == 1 || i== 3){
+        set_rotation(buf[0],heigh,width);
+    }
+    
+    LOG("Receive RO:%d %dx%d\r\n",buf[0],width,heigh);
+}
+
 void atouch_receive_protocol(char *buf, int len)
 {
 
@@ -54,6 +71,11 @@ void atouch_receive_protocol(char *buf, int len)
         break;
     case 0x02:
         get_soft_mouse_buffer(buf + 1);
+
+        break;
+
+    case 0x03:
+        get_rotation(buf + 1);
 
         break;
 

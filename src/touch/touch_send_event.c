@@ -11,6 +11,16 @@
 #include "touch_send_event.h"
 #include "log.h"
 
+char rotation = 0;
+int width = 0,heigth = 0;
+
+void set_rotation(char ro,int w,int h)
+{
+    rotation = ro;
+    width = w;
+    heigth = h;
+}
+
 int send_event(int fd,__u16 type, __u16 code, __s32 value)
 {
     struct input_event event;
@@ -20,8 +30,33 @@ int send_event(int fd,__u16 type, __u16 code, __s32 value)
     event.code = code;
     event.value = value;
 
-    printf("%04x %04x %08x\r\n", event.type, event.code, event.value);
+    //printf("%04x %04x %08x\r\n", event.type, event.code, event.value);
     
+
+    if(code == ABS_MT_POSITION_X)
+    {
+        if(rotation == 1)
+        {
+            event.code = ABS_MT_POSITION_Y;
+        }else if(rotation == 3)
+        {
+            event.code = ABS_MT_POSITION_Y;
+            event.value = heigth - value;
+        }
+    }else if(code == ABS_MT_POSITION_Y)
+    {
+        if(rotation == 1)
+        {
+            event.code = ABS_MT_POSITION_X;
+            event.value = width - value;
+        }else if(rotation == 3)
+        {
+            event.code = ABS_MT_POSITION_X;
+        }
+    }
+
+
+
     ret = write(fd, &event, sizeof(event));
     if (ret < (ssize_t)sizeof(event))
     {
