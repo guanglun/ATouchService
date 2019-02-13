@@ -257,7 +257,7 @@ void proc_keyboard(char *buf, int len)
     s_touch touch;
 
     kb_get_event(buf, len);
-    kb_list_printf(headNode);
+    //kb_list_printf(headNode);
 
     pNode = headNode->next;
     while (pNode != NULL)
@@ -675,7 +675,7 @@ void proc_keyboard(char *buf, int len)
     {
         touch_move(te_move,s_pubg.N5_MoveX, s_pubg.N6_MoveY - MOVE_STEP);
 
-        usleep(60);
+        usleep(60000);
 
         touch_up(te_move);
         te_move = -1;
