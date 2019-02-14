@@ -135,6 +135,9 @@ int get_touchscreen_event_num(char *touch_type)
 
             if (ret != -1)
             {
+                //*touch_type = TOUCH_TYPE_B;
+                //return ret;
+
                 i = 32;
                 pthread_create(&touch_thread, NULL, touch_read_slot_thread, NULL);
 
@@ -144,6 +147,7 @@ int get_touchscreen_event_num(char *touch_type)
 #endif
                 send_event(fd, EV_ABS, ABS_MT_SLOT, 0);
                 send_event(fd, EV_ABS, ABS_MT_TRACKING_ID, 0);
+                send_event(fd, EV_KEY, BTN_TOUCH, 1);
                 send_event(fd, EV_ABS, ABS_MT_POSITION_X, 0);
                 send_event(fd, EV_ABS, ABS_MT_POSITION_Y, 0);
                 send_event(fd, EV_ABS, ABS_MT_PRESSURE, 100);
@@ -162,6 +166,7 @@ int get_touchscreen_event_num(char *touch_type)
 
                 send_event(fd, EV_ABS, ABS_MT_SLOT, 1);
                 send_event(fd, EV_ABS, ABS_MT_TRACKING_ID, -1);
+                send_event(fd, EV_KEY, BTN_TOUCH, 0);
                 send_event(fd, EV_SYN, SYN_REPORT, 0);
 
 

@@ -22,7 +22,7 @@ int fd_event = 0;
 char touch_lock = 0;
 char touch_type = TOUCH_TYPE_A;
 
-__s32 touch_id_num = 0;
+__s32 touch_id_num = 67;
 __s32 touch_down_num = 0;
 
 s_touch s_touch_arr[TOUCH_NUM];
@@ -138,7 +138,7 @@ int touch_init(void)
     {
         LOG("get touch success: event%d ", touch_num);
 
-        //touch_type = TOUCH_TYPE_B;
+        //touch_type = TOUCH_TYPE_A;
         if (touch_type == TOUCH_TYPE_A)
         {
             LOG("TOUCH_TYPE_A\r\n");
@@ -194,14 +194,13 @@ int touch_init(void)
     //     return -1;
     // }
 
-
     return fd_event;
 }
 
 int touch_down(s_touch *touch)
 {
     int i;
-    char is_touch_down = 0,ret = 0;
+    char is_touch_down = 0, ret = 0;
 
     if (touch_type == TOUCH_TYPE_A)
     {
@@ -209,7 +208,7 @@ int touch_down(s_touch *touch)
         {
             if (s_touch_arr[i].is_use == 0x00)
             {
-                if(is_touch_down == 0)
+                if (is_touch_down == 0)
                 {
                     is_touch_down = 1;
                     touch_count++;
@@ -227,19 +226,18 @@ int touch_down(s_touch *touch)
                     send_event(fd_event, EV_ABS, ABS_MT_TRACKING_ID, i);
                     send_event(fd_event, EV_SYN, SYN_MT_REPORT, 0);
                 }
-
             }
             else
             {
                 send_event(fd_event, EV_ABS, ABS_MT_PRESSURE, 100);
                 send_event(fd_event, EV_ABS, ABS_MT_POSITION_X, s_touch_arr[i].now_x);
-                send_event(fd_event, EV_ABS, ABS_MT_POSITION_Y, s_touch_arr[i].now_y);                
+                send_event(fd_event, EV_ABS, ABS_MT_POSITION_Y, s_touch_arr[i].now_y);
                 send_event(fd_event, EV_ABS, ABS_MT_TRACKING_ID, i);
                 send_event(fd_event, EV_SYN, SYN_MT_REPORT, 0);
             }
         }
 
-        if(touch_count == 1)
+        if (touch_count == 1)
         {
             send_event(fd_event, EV_KEY, BTN_TOUCH, 1);
         }
@@ -252,6 +250,7 @@ int touch_down(s_touch *touch)
         {
             if (s_touch_arr[i].is_use == 0x00)
             {
+                touch_count++;
                 memcpy(&s_touch_arr[i], touch, sizeof(s_touch));
                 s_touch_arr[i].is_use = 0x01;
                 s_touch_arr[i].step_count = 0;
@@ -260,7 +259,14 @@ int touch_down(s_touch *touch)
                 send_event(fd_event, EV_ABS, ABS_MT_TRACKING_ID, touch_id_num + i);
                 send_event(fd_event, EV_ABS, ABS_MT_POSITION_X, s_touch_arr[i].start_x);
                 send_event(fd_event, EV_ABS, ABS_MT_POSITION_Y, s_touch_arr[i].start_y);
+                send_event(fd_event, EV_ABS, ABS_MT_TOUCH_MAJOR, 0x0d);
                 send_event(fd_event, EV_ABS, ABS_MT_PRESSURE, 100);
+
+                if (touch_count == 1)
+                {
+                    send_event(fd_event, EV_KEY, BTN_TOUCH, 1);
+                }
+
                 send_event(fd_event, EV_SYN, SYN_REPORT, 0);
 
                 return i;
@@ -311,6 +317,7 @@ int touch_move(int id, __s32 x, __s32 y)
         {
 
             send_event(fd_event, EV_ABS, ABS_MT_SLOT, id);
+            send_event(fd_event, EV_ABS, ABS_MT_TOUCH_MAJOR, 0x0d);
             send_event(fd_event, EV_ABS, ABS_MT_POSITION_X, x);
             send_event(fd_event, EV_ABS, ABS_MT_POSITION_Y, y);
             send_event(fd_event, EV_ABS, ABS_MT_PRESSURE, 100);
@@ -334,7 +341,8 @@ int touch_up(int id)
                 {
                     touch_count--;
                     s_touch_arr[id].is_use = 0x00;
-                }else
+                }
+                else
                 {
                     send_event(fd_event, EV_ABS, ABS_MT_PRESSURE, 100);
                     send_event(fd_event, EV_ABS, ABS_MT_POSITION_X, s_touch_arr[i].now_x);
@@ -345,7 +353,7 @@ int touch_up(int id)
             }
         }
 
-        if(touch_count == 0)
+        if (touch_count == 0)
         {
             send_event(fd_event, EV_SYN, SYN_MT_REPORT, 0);
             send_event(fd_event, EV_KEY, BTN_TOUCH, 0);
@@ -357,9 +365,16 @@ int touch_up(int id)
         if (s_touch_arr[id].is_use != 0x00)
         {
             s_touch_arr[id].is_use = 0x00;
-
+            touch_count--;
             send_event(fd_event, EV_ABS, ABS_MT_SLOT, id);
+            send_event(fd_event, EV_ABS, ABS_MT_TOUCH_MAJOR, 0);
             send_event(fd_event, EV_ABS, ABS_MT_TRACKING_ID, -1);
+
+            if (touch_count == 0)
+            {
+                send_event(fd_event, EV_KEY, BTN_TOUCH, 0);
+            }
+
             send_event(fd_event, EV_SYN, SYN_REPORT, 0);
         }
     }
