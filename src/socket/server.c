@@ -83,6 +83,7 @@ void *client_fun_thread(void *arg)
             else if (witch_connect == 1)
             {
                 atouch_receive(buff, ret);
+                adb_receive(buff, ret);
             }
             else if (witch_connect == 2)
             {
