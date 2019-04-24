@@ -45,6 +45,9 @@ void socket_adb_send(char *buf, int len)
 
 void *client_fun_thread(void *arg)
 {
+    static char is_init = 1;
+    static uint8_t test_count2 = 0;
+
     int ret = -1;
     int conn_fd = *(int *)arg;
     char buff[BUF_SIZE];
@@ -57,6 +60,20 @@ void *client_fun_thread(void *arg)
     {
         // 接受数据
         ret = recv(conn_fd, buff, BUF_SIZE, 0);
+        // log_byte(buff,ret);
+        //     if(is_init == 1)
+        //     {
+        //         is_init = 0;
+        //         test_count2 = buff[ret - 1];
+        //     }else{
+        //         test_count2++;
+        //         if(test_count2 != buff[ret - 1])
+        //         {
+        //             test_count2 = buff[ret - 1];
+        //             LOG("=============>ERROR");
+        //         }
+        //     }
+
         if (ret <= 0)
         {
             // 客户端关闭
