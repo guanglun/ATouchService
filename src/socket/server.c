@@ -54,7 +54,7 @@ void *client_fun_thread(void *arg)
     char client_loop = 1;
     char witch_connect = 0;
 
-    printf("Client Connect %d\r\n", conn_fd);
+    LOG("Client Connect %d\r\n", conn_fd);
 
     while (client_loop)
     {
@@ -77,7 +77,7 @@ void *client_fun_thread(void *arg)
         if (ret <= 0)
         {
             // 客户端关闭
-            //printf("client close\n");
+            //LOG("client close\n");
             close(conn_fd);
             client_loop = 0;
         }
@@ -87,6 +87,7 @@ void *client_fun_thread(void *arg)
             {
                 if (atouch_receive(buff, ret))
                 {
+                    atouch_reset();
                     socket_atouch = conn_fd;
                     witch_connect = 1;
                 }
@@ -109,7 +110,7 @@ void *client_fun_thread(void *arg)
         }
     }
 
-    printf("Client Disconnect\r\n");
+    LOG("Client Disconnect\r\n");
 }
 
 void *server_fun_thread(void *arg)
@@ -123,7 +124,7 @@ void *server_fun_thread(void *arg)
         // 接受请求
         if ((conn_fd = accept(sock_fd, (struct sockaddr *)NULL, NULL)) == -1)
         {
-            printf("accept socket Fail\r\n");
+            LOG("accept socket Fail\r\n");
             continue;
         }
 
@@ -142,7 +143,7 @@ int server_init(void)
     // 创建socket描述符
     if ((sock_fd = socket(AF_INET, SOCK_STREAM, 0)) == -1)
     {
-        printf("Socket Creat Fail\r\n");
+        LOG("Socket Creat Fail\r\n");
         return ret;
     }
 
@@ -157,14 +158,14 @@ int server_init(void)
     // 绑定sock_fd描述符
     if (bind(sock_fd, (struct sockaddr *)(&server_addr), sizeof(struct sockaddr)) == -1)
     {
-        printf("Bind Fail\r\n");
+        LOG("Bind Fail\r\n");
         return ret;
     }
 
     // 监听sock_fd描述符
     if (listen(sock_fd, 5) == -1)
     {
-        printf("Listen Fail\r\n");
+        LOG("Listen Fail\r\n");
         return ret;
     }
 

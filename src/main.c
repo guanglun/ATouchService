@@ -13,9 +13,9 @@ int main()
     
 
     LOG("\r\n==============start=============\r\n");
-    printf("ATouchService is runing\r\n");
+    LOG("ATouchService is runing\r\n");
 
-    
+    check_run();
 
     if(touch_init() == -1)
     {
@@ -61,18 +61,18 @@ int main()
     // }else{
     //     LOG("kb_list_init Success\r\n");
     // }
-    // printf("ADDR:%08X\r\n",headNode);
+    // LOG("ADDR:%08X\r\n",headNode);
     // kb_list_insert(headNode,1,1);
     // kb_list_insert(headNode,2,2);
-    // printf("p1:\r\n");
+    // LOG("p1:\r\n");
     // kb_list_printf(headNode);
     // kb_list_clear(headNode);
-    // printf("p2:\r\n");
+    // LOG("p2:\r\n");
     // kb_list_printf(headNode);
 
     while(1)
     {
-        sleep(1);
+        sleep(1000);
     }
 
 exit:

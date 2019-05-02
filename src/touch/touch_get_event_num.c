@@ -24,7 +24,7 @@ void *touch_read_slot_thread(void *arg)
     int res = -1;
     is_loop_read = 1;
 #ifdef PRINTF_LOG
-    printf("READ THREAD START\r\n");
+    LOG("READ THREAD START\r\n");
 #endif
     while (is_loop_read)
     {
@@ -32,14 +32,14 @@ void *touch_read_slot_thread(void *arg)
         if (res < (int)sizeof(event))
         {
 #ifdef PRINTF_LOG
-            printf(stderr, "could not get event\n");
+            LOG(stderr, "could not get event\n");
 #endif
             is_loop_read = 0;
         }
         else
         {
 #ifdef PRINTF_LOG
-            printf("%04x %04x %08x\r\n", event.type, event.code, event.value);
+            LOG("%04x %04x %08x\r\n", event.type, event.code, event.value);
 #endif
             if (event.type == EV_ABS && event.code == ABS_MT_SLOT)
             {
@@ -50,7 +50,7 @@ void *touch_read_slot_thread(void *arg)
     }
 //close(fd);
 #ifdef PRINTF_LOG
-    printf("READ THREAD EXIT\r\n");
+    LOG("READ THREAD EXIT\r\n");
 #endif
     return 0;
 }
@@ -84,11 +84,11 @@ int get_touchscreen_event_num(char *touch_type)
             ioctl(fd, EVIOCGBIT(0, sizeof(mask)), mask);
 
 #ifdef PRINTF_LOG
-            printf("%s\n", name);
-            printf("    evdev version: %d.%d.%d\n",
+            LOG("%s\n", name);
+            LOG("    evdev version: %d.%d.%d\n",
                    version >> 16, (version >> 8) & 0xff, version & 0xff);
-            printf("    name: %s\n", buf);
-            printf("    features:");
+            LOG("    name: %s\n", buf);
+            LOG("    features:");
 #endif
 
             for (j = 0; j < EV_MAX; j++)
@@ -125,12 +125,12 @@ int get_touchscreen_event_num(char *touch_type)
                         break;
                     }
 #ifdef PRINTF_LOG
-                    printf(" %s", type);
+                    LOG(" %s", type);
 #endif
                 }
             }
 #ifdef PRINTF_LOG
-            printf("\n");
+            LOG("\n");
 #endif
 
             if (ret != -1)
@@ -143,7 +143,7 @@ int get_touchscreen_event_num(char *touch_type)
 
                 usleep(5000);
 #ifdef PRINTF_LOG
-                printf("Write SLOT START\r\n");
+                LOG("Write SLOT START\r\n");
 #endif
                 send_event(fd, EV_ABS, ABS_MT_SLOT, 0);
                 send_event(fd, EV_ABS, ABS_MT_TRACKING_ID, 0);
@@ -171,7 +171,7 @@ int get_touchscreen_event_num(char *touch_type)
 
 
 #ifdef PRINTF_LOG
-                printf("Write SLOT END\r\n");
+                LOG("Write SLOT END\r\n");
 #endif
             }
 

@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "list_keyboard_event.h"
+#include "log.h"
 
 int kb_list_init(KBEventNode **headNode)
 {
@@ -26,11 +27,11 @@ void kb_list_printf(KBEventNode *headNode)
 {
 	int i = 0;
 	KBEventNode *pMove = headNode->next;
-	printf("kb_list_printf:\r\n");
+	LOG("kb_list_printf:\r\n");
 	while (pMove != NULL)
 	{
 		i++;
-		printf("%d\t%d\t%d\r\n", i,pMove->code, pMove->event);
+		LOG("%d\t%d\t%d\r\n", i,pMove->code, pMove->event);
 		pMove = pMove->next;
 	}
 }

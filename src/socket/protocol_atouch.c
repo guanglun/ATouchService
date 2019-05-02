@@ -12,6 +12,13 @@
 #include "protocol_atouch.h"
 #include "touch_send_event.h"
 #include "touch.h"
+#include "proc_mouse.h"
+#include "proc_keyboard.h"
+
+void atouch_reset(void)
+{
+    proc_mouse_reset();
+}
 
 void get_soft_mouse_buffer(char *buf)
 {

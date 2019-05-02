@@ -1,3 +1,5 @@
+ANDROID_ATOUCH_PATH=/data/local/tmp
+
 NDK_PATH=/home/share/Android
 
 SRCDIR = 				\
@@ -37,10 +39,16 @@ clean:
 	rm $(OBJDIR)/*
 
 run:
-	adb push $(KILLSH_PATH)/$(KILLSH_NAME) /data/local/tmp/
-	adb shell chmod 777 /data/local/tmp/$(KILLSH_NAME)
-	adb shell /data/local/tmp/$(KILLSH_NAME)
+	# adb push $(KILLSH_PATH)/$(KILLSH_NAME) $(ANDROID_ATOUCH_PATH)/
+	# adb shell chmod 777 $(ANDROID_ATOUCH_PATH)/$(KILLSH_NAME)
+	# adb shell $(ANDROID_ATOUCH_PATH)/$(KILLSH_NAME)
 	
-	adb push $(TARGET) /data/local/tmp/
-	adb shell chmod 777 /data/local/tmp/$(BINAME)
-	adb shell /data/local/tmp/$(BINAME)
+	adb push $(TARGET) $(ANDROID_ATOUCH_PATH)
+	adb shell chmod 777 $(ANDROID_ATOUCH_PATH)/$(BINAME)
+	adb shell $(ANDROID_ATOUCH_PATH)/$(BINAME)
+
+cprun:
+	adb shell cp /mnt/sdcard/ATouch/ATouchService $(ANDROID_ATOUCH_PATH)
+	adb shell chmod 777 $(ANDROID_ATOUCH_PATH)/$(BINAME)
+	adb shell $(ANDROID_ATOUCH_PATH)/$(BINAME)
+

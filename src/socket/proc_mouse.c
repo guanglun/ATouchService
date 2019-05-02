@@ -15,6 +15,15 @@ char is_watch = 0;
 int te_face = -1;
 unsigned short face_x = 0, face_y = 0;
 
+void proc_mouse_reset(void)
+{
+    if(te_face != -1)
+    {
+        touch_up(te_face);
+        te_face = -1;
+    }
+}
+
 void proc_mouse(char *buf, int len)
 {
     static int te_attack = -1,te_aim = -1;
@@ -41,8 +50,6 @@ void proc_mouse(char *buf, int len)
             touch.start_x = s_pubg.N15_WatchX;
             touch.start_y = s_pubg.N16_WatchY;
             touch.type = TOUCH_NORMAL;
-
-            
         }
 
         te_face = touch_down(&touch);
@@ -68,7 +75,7 @@ void proc_mouse(char *buf, int len)
         face_x += (signed char)buf[1];
         face_y += (signed char)buf[2];
 
-        //printf("%d\t%d\t%d\t%d\r\n",face_x,face_y,(signed char)buf[1],(signed char)buf[2]);
+        //LOG("%d\t%d\t%d\t%d\r\n",face_x,face_y,(signed char)buf[1],(signed char)buf[2]);
 
         if (is_watch == 0)
         {

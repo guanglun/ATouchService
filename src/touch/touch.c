@@ -70,7 +70,7 @@ void *touch_fun_thread(void *arg)
 
     __s32 x, y;
 
-    //printf("thread start\r\n");
+    //LOG("thread start\r\n");
 
     while (1)
     {
