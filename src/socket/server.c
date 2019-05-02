@@ -87,7 +87,7 @@ void *client_fun_thread(void *arg)
             {
                 if (atouch_receive(buff, ret))
                 {
-                    atouch_reset();
+                    //atouch_reset();
                     socket_atouch = conn_fd;
                     witch_connect = 1;
                 }
