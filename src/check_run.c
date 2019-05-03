@@ -82,6 +82,6 @@ void check_run(void)
         LOG("not runing\r\n") ;
     }
 
-    
+    pclose(fp);
 
 }

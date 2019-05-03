@@ -13,50 +13,33 @@
 #include "touch_send_event.h"
 
 //#define PRINTF_LOG
-int fd = 0;
-struct input_event event;
+
 char get_touch_type = TOUCH_TYPE_A;
-char is_loop_read = 1;
 
-void *touch_read_slot_thread(void *arg)
+char get_type(void)
 {
+    char recv_str[1024*8];
+    FILE *fp;  
 
-    int res = -1;
-    is_loop_read = 1;
-#ifdef PRINTF_LOG
-    LOG("READ THREAD START\r\n");
-#endif
-    while (is_loop_read)
+    //printf("getevent -lp\r\n"); 
+    fp = popen("getevent -lp", "r"); 
+    while(fgets(recv_str,sizeof(recv_str),fp) != NULL)
     {
-        res = read(fd, &event, sizeof(event));
-        if (res < (int)sizeof(event))
+        //printf("%s",recv_str); 
+        if(strstr(recv_str,"ABS_MT_SLOT") != NULL)
         {
-#ifdef PRINTF_LOG
-            LOG(stderr, "could not get event\n");
-#endif
-            is_loop_read = 0;
-        }
-        else
-        {
-#ifdef PRINTF_LOG
-            LOG("%04x %04x %08x\r\n", event.type, event.code, event.value);
-#endif
-            if (event.type == EV_ABS && event.code == ABS_MT_SLOT)
-            {
-                get_touch_type = TOUCH_TYPE_B;
-                is_loop_read = 0;
-            }
+            pclose(fp);
+            return TOUCH_TYPE_B;
         }
     }
-//close(fd);
-#ifdef PRINTF_LOG
-    LOG("READ THREAD EXIT\r\n");
-#endif
-    return 0;
+        
+    pclose(fp);
+    return TOUCH_TYPE_A;
 }
 
 int get_touchscreen_event_num(char *touch_type)
 {
+    int fd = 0;
     int ret = -1;
     char name[64]; /* RATS: Use ok, but could be better */
     char buf[256] = {
@@ -133,54 +116,12 @@ int get_touchscreen_event_num(char *touch_type)
             LOG("\n");
 #endif
 
-            if (ret != -1)
-            {
-                //*touch_type = TOUCH_TYPE_B;
-                //return ret;
-
-                i = 32;
-                pthread_create(&touch_thread, NULL, touch_read_slot_thread, NULL);
-
-                usleep(5000);
-#ifdef PRINTF_LOG
-                LOG("Write SLOT START\r\n");
-#endif
-                send_event(fd, EV_ABS, ABS_MT_SLOT, 0);
-                send_event(fd, EV_ABS, ABS_MT_TRACKING_ID, 0);
-                send_event(fd, EV_KEY, BTN_TOUCH, 1);
-                send_event(fd, EV_ABS, ABS_MT_POSITION_X, 0);
-                send_event(fd, EV_ABS, ABS_MT_POSITION_Y, 0);
-                send_event(fd, EV_ABS, ABS_MT_PRESSURE, 100);
-                send_event(fd, EV_SYN, SYN_REPORT, 0);
-
-                send_event(fd, EV_ABS, ABS_MT_SLOT, 1);
-                send_event(fd, EV_ABS, ABS_MT_TRACKING_ID, 1);
-                send_event(fd, EV_ABS, ABS_MT_POSITION_X, 0);
-                send_event(fd, EV_ABS, ABS_MT_POSITION_Y, 0);
-                send_event(fd, EV_ABS, ABS_MT_PRESSURE, 100);
-                send_event(fd, EV_SYN, SYN_REPORT, 0);
-
-                send_event(fd, EV_ABS, ABS_MT_SLOT, 0);
-                send_event(fd, EV_ABS, ABS_MT_TRACKING_ID, -1);
-                send_event(fd, EV_SYN, SYN_REPORT, 0);
-
-                send_event(fd, EV_ABS, ABS_MT_SLOT, 1);
-                send_event(fd, EV_ABS, ABS_MT_TRACKING_ID, -1);
-                send_event(fd, EV_KEY, BTN_TOUCH, 0);
-                send_event(fd, EV_SYN, SYN_REPORT, 0);
-
-
-#ifdef PRINTF_LOG
-                LOG("Write SLOT END\r\n");
-#endif
-            }
-
-            usleep(5000);
-            *touch_type = get_touch_type;
-            is_loop_read = 0;
-
             close(fd);
         }
     }
+
+
+    *touch_type = get_type();
+
     return ret;
 }
