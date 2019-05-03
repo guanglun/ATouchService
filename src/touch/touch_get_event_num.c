@@ -11,36 +11,47 @@
 
 #include "touch_get_event_num.h"
 #include "touch_send_event.h"
+#include "log.h"
 
 //#define PRINTF_LOG
 
-char get_touch_type = TOUCH_TYPE_A;
 
-char get_type(void)
+
+char get_type(int event_num)
 {
+    char input_str[1024*8];
     char recv_str[1024*8];
+    char get_touch_type = TOUCH_TYPE_ERROR;
     FILE *fp;  
 
-    //printf("getevent -lp\r\n"); 
-    fp = popen("getevent -lp", "r"); 
+    sprintf(input_str,"getevent -lp /dev/input/event%d",event_num); 
+    fp = popen(input_str, "r"); 
     while(fgets(recv_str,sizeof(recv_str),fp) != NULL)
     {
         //printf("%s",recv_str); 
         if(strstr(recv_str,"ABS_MT_SLOT") != NULL)
         {
-            pclose(fp);
-            return TOUCH_TYPE_B;
+            get_touch_type = TOUCH_TYPE_B;
         }
+
+        if(strstr(recv_str,"ABS_MT_POSITION_X") != NULL)
+        {
+            if(get_touch_type == TOUCH_TYPE_ERROR)
+            {
+                get_touch_type = TOUCH_TYPE_A;
+            }
+            
+        }        
     }
         
     pclose(fp);
-    return TOUCH_TYPE_A;
+    return get_touch_type;
 }
 
 int get_touchscreen_event_num(char *touch_type)
 {
     int fd = 0;
-    int ret = -1;
+    int ret = -1,get_type_ret = TOUCH_TYPE_ERROR;
     char name[64]; /* RATS: Use ok, but could be better */
     char buf[256] = {
         0,
@@ -89,7 +100,12 @@ int get_touchscreen_event_num(char *touch_type)
                         break;
                     case EV_ABS:
                         type = "absolute";
-                        ret = i;
+                        get_type_ret = get_type(i);
+                        if(get_type_ret != TOUCH_TYPE_ERROR)
+                        {
+                            *touch_type = get_type_ret;
+                            ret = i;
+                        }
                         break;
                     case EV_MSC:
                         type = "reserved";
@@ -121,7 +137,7 @@ int get_touchscreen_event_num(char *touch_type)
     }
 
 
-    *touch_type = get_type();
+    
 
     return ret;
 }

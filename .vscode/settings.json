@@ -8,6 +8,7 @@
         "protocol_adb.h": "c",
         "pubg.h": "c",
         "list_keyboard_event.h": "c",
-        "proc_keyboard.h": "c"
+        "proc_keyboard.h": "c",
+        "log.h": "c"
     }
 }
