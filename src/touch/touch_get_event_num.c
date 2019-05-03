@@ -28,7 +28,7 @@ char get_type(int event_num)
     fp = popen(input_str, "r"); 
     while(fgets(recv_str,sizeof(recv_str),fp) != NULL)
     {
-        //printf("%s",recv_str); 
+        //LOG("%s",recv_str); 
         if(strstr(recv_str,"ABS_MT_SLOT") != NULL)
         {
             get_touch_type = TOUCH_TYPE_B;

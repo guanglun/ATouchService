@@ -84,21 +84,21 @@ int adb_receive(char *buf, int len)
         else if ((receive_adb_flag == (data_adb_len + 3)) && (check_adb == buf[i]))
         {
             isSuccess = 1;
-            log_byte(data_adb_buffer, data_adb_len);
+            // log_byte(data_adb_buffer, data_adb_len);
 
-            if(is_init == 1)
-            {
-                is_init = 0;
-                test_count = data_adb_buffer[data_adb_len - 1];
-            }else{
-                test_count++;
-                if(test_count != data_adb_buffer[data_adb_len - 1])
-                {
-                    test_count = data_adb_buffer[data_adb_len - 1];
-                    LOG("=============>ERROR %d ==>",len);
-                    log_byte(buf, len);
-                }
-            }
+            // if(is_init == 1)
+            // {
+            //     is_init = 0;
+            //     test_count = data_adb_buffer[data_adb_len - 1];
+            // }else{
+            //     test_count++;
+            //     if(test_count != data_adb_buffer[data_adb_len - 1])
+            //     {
+            //         test_count = data_adb_buffer[data_adb_len - 1];
+            //         LOG("=============>ERROR %d ==>",len);
+            //         log_byte(buf, len);
+            //     }
+            // }
 
             adb_receive_protocol(data_adb_buffer, data_adb_len);
             //LOG("adb_receive_protocol exit\r\n");
