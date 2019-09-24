@@ -32,9 +32,9 @@ int main()
     // touch.start_x = 100;
     // touch.start_y = 100;
     // touch.end_x = 500;
-    // touch.end_y = 100;
+    // touch.end_y = 500;
     // touch.step = 50;
-    // touch.type =  TOUCH_MOVE_UP;
+    // touch.type =  TOUCH_MOVE_NORMAL;
 
     // int touch1 = touch_down(&touch);
 
