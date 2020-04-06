@@ -1,6 +1,6 @@
 ANDROID_ATOUCH_PATH=/data/local/tmp
 
-NDK_PATH=/home/share/Android
+NDK_PATH=/root/workspace/ATouch
 
 SRCDIR = 				\
 		src				\
@@ -48,7 +48,8 @@ run:
 	adb shell $(ANDROID_ATOUCH_PATH)/$(BINAME)
 
 cprun:
-	adb shell cp /mnt/sdcard/ATouch/ATouchService $(ANDROID_ATOUCH_PATH)
+	#adb shell cp /mnt/sdcard/ATouch/ATouchService $(ANDROID_ATOUCH_PATH)
+	adb shell cp /mnt/sdcard/Download/ATouchService $(ANDROID_ATOUCH_PATH)
 	adb shell chmod 777 $(ANDROID_ATOUCH_PATH)/$(BINAME)
 	adb shell $(ANDROID_ATOUCH_PATH)/$(BINAME)
 

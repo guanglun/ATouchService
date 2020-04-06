@@ -12,7 +12,8 @@
 #include "log.h"
 
 char rotation = 0;
-int width = 0,heigth = 0;
+int width = 1920,heigth = 1080;
+extern int touch_x,touch_y;
 
 void set_rotation(char ro,int w,int h)
 {
@@ -51,6 +52,25 @@ int send_event(int fd,__u16 type, __u16 code, __s32 value)
             event.code = ABS_MT_POSITION_X;
         }
     }
+
+    if(code == ABS_MT_POSITION_X)
+    {
+        if(rotation == 1 || rotation == 3)
+        {
+            event.value = (int)(touch_y * event.value / heigth);
+        }else{
+            event.value = (int)(touch_x * event.value / width);
+        }
+    }else if(code == ABS_MT_POSITION_Y)
+    {
+        if(rotation == 1 || rotation == 3)
+        {
+            event.value = (int)(touch_x * event.value / width);
+        }else{
+            event.value = (int)(touch_y * event.value / heigth);
+        }
+    }
+    
 
     //LOG("%04x %04x %08x\r\n", event.type, event.code, event.value);
 

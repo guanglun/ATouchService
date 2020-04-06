@@ -18,7 +18,7 @@
 #define TOUCH_NUM 9
 
 char touch_count = 0;
-int fd_event = 0;
+int fd_event = 0,touch_x = 0,touch_y = 0;
 char touch_lock = 0;
 char touch_type = TOUCH_TYPE_A;
 
@@ -132,7 +132,7 @@ void touch_struct_init()
 int touch_init(void)
 {
 
-    int touch_num = get_touchscreen_event_num(&touch_type);
+    int touch_num = get_touchscreen_event_num(&touch_type,&touch_x,&touch_y);
 
     if (touch_num != -1)
     {
@@ -141,11 +141,11 @@ int touch_init(void)
         //touch_type = TOUCH_TYPE_A;
         if (touch_type == TOUCH_TYPE_A)
         {
-            LOG("TOUCH_TYPE_A\r\n");
+            LOG("TOUCH_TYPE_A %dx%d\r\n",touch_x,touch_y);
         }
         else if (touch_type == TOUCH_TYPE_B)
         {
-            LOG("TOUCH_TYPE_B\r\n");
+            LOG("TOUCH_TYPE_B %dx%d\r\n",touch_x,touch_y);
         }
     }
     else
@@ -222,6 +222,7 @@ int touch_down(s_touch *touch)
 
                     send_event(fd_event, EV_ABS, ABS_MT_PRESSURE, 100);
                     send_event(fd_event, EV_ABS, ABS_MT_POSITION_X, s_touch_arr[i].start_x);
+                    usleep(10);
                     send_event(fd_event, EV_ABS, ABS_MT_POSITION_Y, s_touch_arr[i].start_y);
                     send_event(fd_event, EV_ABS, ABS_MT_TRACKING_ID, i);
                     send_event(fd_event, EV_SYN, SYN_MT_REPORT, 0);
@@ -231,6 +232,7 @@ int touch_down(s_touch *touch)
             {
                 send_event(fd_event, EV_ABS, ABS_MT_PRESSURE, 100);
                 send_event(fd_event, EV_ABS, ABS_MT_POSITION_X, s_touch_arr[i].now_x);
+                usleep(10);
                 send_event(fd_event, EV_ABS, ABS_MT_POSITION_Y, s_touch_arr[i].now_y);
                 send_event(fd_event, EV_ABS, ABS_MT_TRACKING_ID, i);
                 send_event(fd_event, EV_SYN, SYN_MT_REPORT, 0);
@@ -258,6 +260,7 @@ int touch_down(s_touch *touch)
                 send_event(fd_event, EV_ABS, ABS_MT_SLOT, i);
                 send_event(fd_event, EV_ABS, ABS_MT_TRACKING_ID, touch_id_num + i);
                 send_event(fd_event, EV_ABS, ABS_MT_POSITION_X, s_touch_arr[i].start_x);
+                usleep(10);
                 send_event(fd_event, EV_ABS, ABS_MT_POSITION_Y, s_touch_arr[i].start_y);
                 send_event(fd_event, EV_ABS, ABS_MT_TOUCH_MAJOR, 0x0d);
                 send_event(fd_event, EV_ABS, ABS_MT_PRESSURE, 100);
@@ -295,6 +298,7 @@ int touch_move(int id, __s32 x, __s32 y)
                 {
                     send_event(fd_event, EV_ABS, ABS_MT_PRESSURE, 100);
                     send_event(fd_event, EV_ABS, ABS_MT_POSITION_X, x);
+                    usleep(10);
                     send_event(fd_event, EV_ABS, ABS_MT_POSITION_Y, y);
                     send_event(fd_event, EV_ABS, ABS_MT_TRACKING_ID, i);
                     send_event(fd_event, EV_SYN, SYN_MT_REPORT, 0);
@@ -303,6 +307,7 @@ int touch_move(int id, __s32 x, __s32 y)
                 {
                     send_event(fd_event, EV_ABS, ABS_MT_PRESSURE, 100);
                     send_event(fd_event, EV_ABS, ABS_MT_POSITION_X, s_touch_arr[i].now_x);
+                    usleep(10);
                     send_event(fd_event, EV_ABS, ABS_MT_POSITION_Y, s_touch_arr[i].now_y);
                     send_event(fd_event, EV_ABS, ABS_MT_TRACKING_ID, i);
                     send_event(fd_event, EV_SYN, SYN_MT_REPORT, 0);
@@ -319,6 +324,7 @@ int touch_move(int id, __s32 x, __s32 y)
             send_event(fd_event, EV_ABS, ABS_MT_SLOT, id);
             send_event(fd_event, EV_ABS, ABS_MT_TOUCH_MAJOR, 0x0d);
             send_event(fd_event, EV_ABS, ABS_MT_POSITION_X, x);
+            usleep(10);
             send_event(fd_event, EV_ABS, ABS_MT_POSITION_Y, y);
             send_event(fd_event, EV_ABS, ABS_MT_PRESSURE, 100);
             send_event(fd_event, EV_SYN, SYN_REPORT, 0);
@@ -346,6 +352,7 @@ int touch_up(int id)
                 {
                     send_event(fd_event, EV_ABS, ABS_MT_PRESSURE, 100);
                     send_event(fd_event, EV_ABS, ABS_MT_POSITION_X, s_touch_arr[i].now_x);
+                    usleep(10);
                     send_event(fd_event, EV_ABS, ABS_MT_POSITION_Y, s_touch_arr[i].now_y);
                     send_event(fd_event, EV_ABS, ABS_MT_TRACKING_ID, i);
                     send_event(fd_event, EV_SYN, SYN_MT_REPORT, 0);
