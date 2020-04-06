@@ -1,6 +1,6 @@
 ANDROID_ATOUCH_PATH=/data/local/tmp
 
-NDK_PATH=/root/workspace/ATouch
+NDK_PATH=/home/share/Android
 
 SRCDIR = 				\
 		src				\
