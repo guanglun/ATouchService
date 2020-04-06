@@ -6,13 +6,16 @@
 #include "server.h"
 #include "list_keyboard_event.h"
 
+#include "version.h"
+
 KBEventNode *headNode;
 
 int main()
 {
     
 
-    LOG("\r\n==============start=============\r\n");
+    LOG("\r\n==============start=============\r\n");\
+    LOG("\r\n==============%s=============\r\n",VERSION);
     LOG("ATouchService is runing\r\n");
 
     check_run();

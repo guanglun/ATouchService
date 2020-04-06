@@ -25,7 +25,7 @@ void adb_receive_protocol(char *buf, int len)
     {
     case 0x00:
 
-        temp_len = cmd_atouch_creat(0x00, buf + 1, 3, temp);
+        temp_len = cmd_atouch_creat(0x00, buf + 1, 4, temp);
         socket_atouch_send(temp,temp_len);
 
         break;

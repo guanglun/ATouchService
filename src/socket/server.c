@@ -13,6 +13,8 @@
 #include "protocol_atouch.h"
 #include "protocol_adb.h"
 
+#include "version.h"
+
 #define BUF_SIZE 2048
 #define PORT 1989
 
@@ -53,6 +55,7 @@ void *client_fun_thread(void *arg)
     char buff[BUF_SIZE];
     char client_loop = 1;
     char witch_connect = 0;
+    char hello_str[] = "hello";
 
     LOG("Client Connect %d\r\n", conn_fd);
 
@@ -90,6 +93,7 @@ void *client_fun_thread(void *arg)
                     //atouch_reset();
                     socket_atouch = conn_fd;
                     witch_connect = 1;
+
                 }
 
                 if (adb_receive(buff, ret))
@@ -127,7 +131,7 @@ void *server_fun_thread(void *arg)
             LOG("accept socket Fail\r\n");
             continue;
         }
-
+        send(conn_fd, VERSION, strlen(VERSION), 0);//发送版本号
         pthread_create(&client_thread, NULL, client_fun_thread, &conn_fd);
         //close(conn_fd);
     }

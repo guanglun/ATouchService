@@ -86,6 +86,10 @@ void atouch_receive_protocol(char *buf, int len)
 
         break;
 
+    case 0x04:
+        socket_adb_send(buf,len);
+        break;
+
     default:
         break;
     }
