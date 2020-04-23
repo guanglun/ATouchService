@@ -31,31 +31,31 @@ int main()
     }
 
 
-    // s_touch touch;
-    // touch.start_x = 100;
-    // touch.start_y = 100;
-    // touch.end_x = 500;
-    // touch.end_y = 500;
-    // touch.step = 50;
-    // touch.type =  TOUCH_MOVE_NORMAL;
+    s_touch touch;
+    touch.start_x = 100;
+    touch.start_y = 100;
+    touch.end_x = 500;
+    touch.end_y = 500;
+    touch.step = 50;
+    touch.type =  TOUCH_MOVE_NORMAL;
 
-    // int touch1 = touch_down(&touch);
+    int touch1 = touch_down(&touch);
 
-    // touch.start_x = 100;
-    // touch.start_y = 150;
-    // touch.end_x = 500;
-    // touch.end_y = 150;
-    // touch.step = 50;
-    // int touch2 = touch_down(&touch);
+    touch.start_x = 100;
+    touch.start_y = 150;
+    touch.end_x = 500;
+    touch.end_y = 150;
+    touch.step = 50;
+    int touch2 = touch_down(&touch);
 
-    // touch.start_x = 100;
-    // touch.start_y = 200;
-    // touch.end_x = 500;
-    // touch.end_y = 200;
-    // touch.step = 100;
-    // int touch3 = touch_down(&touch);
+    touch.start_x = 100;
+    touch.start_y = 200;
+    touch.end_x = 500;
+    touch.end_y = 200;
+    touch.step = 100;
+    int touch3 = touch_down(&touch);
 
-    //touch_up(touch1);
+    touch_up(touch1);
 
     
     // if(kb_list_init(&headNode) == -1)

@@ -53,24 +53,25 @@ int send_event(int fd,__u16 type, __u16 code, __s32 value)
         }
     }
 
-    if(code == ABS_MT_POSITION_X)
-    {
-        if(rotation == 1 || rotation == 3)
-        {
-            event.value = (int)(touch_y * event.value / heigth);
-        }else{
-            event.value = (int)(touch_x * event.value / width);
-        }
-    }else if(code == ABS_MT_POSITION_Y)
-    {
-        if(rotation == 1 || rotation == 3)
-        {
-            event.value = (int)(touch_x * event.value / width);
-        }else{
-            event.value = (int)(touch_y * event.value / heigth);
-        }
-    }
-    
+    /*========================调试机顶盒插入的USB屏幕时加入 由于手机使用出现问题暂时注释===================*/
+    // if(code == ABS_MT_POSITION_X)
+    // {
+    //     if(rotation == 1 || rotation == 3)
+    //     {
+    //         event.value = (int)(touch_y * event.value / heigth);
+    //     }else{
+    //         event.value = (int)(touch_x * event.value / width);
+    //     }
+    // }else if(code == ABS_MT_POSITION_Y)
+    // {
+    //     if(rotation == 1 || rotation == 3)
+    //     {
+    //         event.value = (int)(touch_x * event.value / width);
+    //     }else{
+    //         event.value = (int)(touch_y * event.value / heigth);
+    //     }
+    // }
+    /*========================调试机顶盒插入的USB屏幕时加入 由于手机使用出现问题暂时注释===================*/
 
     //LOG("%04x %04x %08x\r\n", event.type, event.code, event.value);
 
